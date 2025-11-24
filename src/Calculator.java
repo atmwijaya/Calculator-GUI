@@ -12,7 +12,6 @@ public class Calculator {
     private boolean startNewNumber = true;
 
     public static void main(String[] args) {
-        // Run the GUI in Event Dispatch Thread
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 new Calculator().createAndShowGUI();
@@ -28,24 +27,18 @@ public class Calculator {
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
 
-        // Create components
         createComponents();
-        
-        // Setup layout
         setupLayout();
-        
         frame.setVisible(true);
     }
 
     private void createComponents() {
-        // Display
         display = new JTextField();
         display.setFont(new Font("Arial", Font.BOLD, 20));
         display.setHorizontalAlignment(JTextField.RIGHT);
         display.setEditable(false);
         display.setText("0");
 
-        // Create buttons with improved styling
         String[] buttonLabels = {
             "C", "DEL", "/", "*",
             "7", "8", "9", "-",
@@ -59,7 +52,6 @@ public class Calculator {
             button.setFont(new Font("Arial", Font.BOLD, 16));
             button.addActionListener(new ButtonClickListener());
             
-            // Style buttons based on type
             if (label.matches("[0-9]")) {
                 button.setBackground(Color.WHITE);
             } else if (label.equals("=")) {
@@ -80,19 +72,15 @@ public class Calculator {
     }
 
     private void setupLayout() {
-        // Main panel with BorderLayout
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // Display panel
         JPanel displayPanel = new JPanel(new BorderLayout());
         displayPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
         displayPanel.add(display, BorderLayout.CENTER);
 
-        // Button panel with GridLayout
         JPanel buttonPanel = new JPanel(new GridLayout(5, 4, 5, 5));
 
-        // Add buttons in order
         String[][] buttonLayout = {
             {"C", "DEL", "/", "*"},
             {"7", "8", "9", "-"},
@@ -106,18 +94,13 @@ public class Calculator {
                 JButton button = new JButton(label);
                 button.setFont(new Font("Arial", Font.BOLD, 16));
                 button.addActionListener(new ButtonClickListener());
-                
-                // Apply styling
                 styleButton(button, label);
                 buttonPanel.add(button);
             }
         }
 
-        // Add components to main panel
         mainPanel.add(displayPanel, BorderLayout.NORTH);
         mainPanel.add(buttonPanel, BorderLayout.CENTER);
-
-        // Add main panel to frame
         frame.add(mainPanel);
     }
 
@@ -204,8 +187,7 @@ public class Calculator {
             if (!operator.isEmpty() && !currentInput.isEmpty()) {
                 double secondNumber = Double.parseDouble(currentInput);
                 double result = calculate(firstNumber, secondNumber, operator);
-                
-                // Format result
+
                 if (result == (long) result) {
                     display.setText(String.format("%d", (long) result));
                     currentInput = String.valueOf((long) result);
